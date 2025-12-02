@@ -13,6 +13,7 @@ export default {
           700: '#1a1a3a',
           600: '#2a2a4a',
           500: '#3a3a5a',
+          400: '#4a4a6a',
         },
         accent: {
           blue: '#4f8fff',
