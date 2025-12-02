@@ -114,6 +114,8 @@ class ExoplanetAgent:
         Returns:
             Dict with visualization spec and data
         """
+        print(f"[AGENT] Processing question: {question}")
+
         # Build prompt with context
         context = self.state.get_context()
         user_message = USER_PROMPT_TEMPLATE.format(
@@ -122,8 +124,12 @@ class ExoplanetAgent:
         )
 
         # Call LLM
+        print(f"[AGENT] Calling LLM provider: {LLM_PROVIDER}, model: {LLM_MODEL}")
+        print(f"[AGENT] API Key configured: {'Yes' if (OPENAI_API_KEY or ANTHROPIC_API_KEY) else 'NO - MISSING!'}")
         llm_response = self._call_llm(user_message)
+        print(f"[AGENT] LLM response received, length: {len(llm_response)}")
         parsed = self._parse_llm_response(llm_response)
+        print(f"[AGENT] Parsed response - SQL: {parsed.get('sql', 'N/A')[:100]}...")
 
         sql = parsed.get("sql", "")
         viz_spec = parsed.get("visualization", {})
