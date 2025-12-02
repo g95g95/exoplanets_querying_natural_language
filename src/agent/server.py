@@ -67,11 +67,18 @@ async def ask_question(request: QuestionRequest) -> QuestionResponse:
     Returns:
         Query results with visualization spec
     """
+    print(f"[LOG] Received question: {request.question}")
+    print(f"[LOG] Session ID: {request.session_id}")
     try:
         agent = get_agent(request.session_id)
+        print("[LOG] Agent created/retrieved successfully")
         result = agent.ask(request.question)
+        print(f"[LOG] Result: success={result.get('success')}, rows={result.get('row_count')}")
         return QuestionResponse(**result)
     except Exception as e:
+        import traceback
+        print(f"[ERROR] Exception occurred: {str(e)}")
+        print(f"[ERROR] Traceback:\n{traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
