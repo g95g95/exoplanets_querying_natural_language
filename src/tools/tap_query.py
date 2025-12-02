@@ -1,10 +1,34 @@
 """TAP query execution tool for NASA Exoplanet Archive."""
 
+import re
 import requests
 from typing import Dict, List, Optional, Any
 
 from ..config import NASA_TAP_URL, DEFAULT_LIMIT, MAX_LIMIT
 from .cache import get_cached, set_cached
+
+
+def _convert_limit_to_top(query: str) -> str:
+    """Convert SQL LIMIT clause to ADQL TOP clause.
+
+    ADQL uses TOP n after SELECT, not LIMIT at the end.
+    Example: SELECT a FROM b LIMIT 10 -> SELECT TOP 10 a FROM b
+
+    Args:
+        query: SQL query with potential LIMIT clause
+
+    Returns:
+        Query with TOP instead of LIMIT
+    """
+    # Find LIMIT clause at the end
+    limit_match = re.search(r'\bLIMIT\s+(\d+)\s*$', query, re.IGNORECASE)
+    if limit_match:
+        limit_value = limit_match.group(1)
+        # Remove LIMIT clause
+        query = re.sub(r'\bLIMIT\s+\d+\s*$', '', query, flags=re.IGNORECASE).strip()
+        # Add TOP after SELECT
+        query = re.sub(r'^(SELECT)\s+', rf'\1 TOP {limit_value} ', query, flags=re.IGNORECASE)
+    return query
 
 
 def run_tap_query(
@@ -26,6 +50,9 @@ def run_tap_query(
     """
     # Clean query - remove semicolons if present
     query = query.strip().rstrip(";")
+
+    # Convert LIMIT to TOP for ADQL compatibility
+    query = _convert_limit_to_top(query)
 
     # Check cache first
     if use_cache and format == "json":
@@ -141,14 +168,12 @@ def build_query(
         limit = MAX_LIMIT
 
     columns_str = ", ".join(columns)
-    query = f"SELECT {columns_str}\nFROM {table}"
+    query = f"SELECT TOP {limit} {columns_str}\nFROM {table}"
 
     if where:
         query += f"\nWHERE {where}"
 
     if order_by:
         query += f"\nORDER BY {order_by}"
-
-    query += f"\nLIMIT {limit}"
 
     return query
