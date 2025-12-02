@@ -19,7 +19,7 @@ Key columns:
 - pl_orbsmax: Semi-major axis (AU)
 - pl_eqt: Equilibrium temperature (K)
 - pl_tranflag: Transit flag (0/1)
-- pl_discmethod: Discovery method
+- discoverymethod: Discovery method
 - disc_year: Discovery year
 - st_teff: Stellar temperature (K)
 - st_rad: Stellar radius (Solar radii)
