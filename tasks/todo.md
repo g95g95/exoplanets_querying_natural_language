@@ -45,6 +45,18 @@ Creare un agente AI che traduce domande in linguaggio naturale in query TAP SQL 
 - [x] Creare `src/__init__.py`
 - [x] Aggiornare README.md con le istruzioni
 
+## Fase 9: Query Cache (Aggiunta)
+- [x] Creare `src/tools/cache.py` con cache in-memory e su file
+- [x] Integrare cache in `tap_query.py`
+- [x] Aggiungere endpoint `/cache/stats` e `/cache/clear`
+
+## Fase 10: Frontend React (Aggiunta)
+- [x] Setup Vite + React + Tailwind CSS
+- [x] Creare componenti UI (Header, QueryInput, ExampleQueries)
+- [x] Creare ResultCard con toggle SQL
+- [x] Implementare ChartRenderer con Recharts (Scatter, Bar, Line, KPI, Table)
+- [x] Styling tema spaziale con gradienti e animazioni
+
 ---
 
 ## Note Tecniche
@@ -52,6 +64,10 @@ Creare un agente AI che traduce domande in linguaggio naturale in query TAP SQL 
 ### Architettura
 ```
 User Question → LLM Agent → TAP SQL Generation → NASA TAP API → JSON Results → Visualization Spec
+                    ↓
+              [Query Cache]
+                    ↓
+            React Frontend → Recharts Visualization
 ```
 
 ### Endpoint NASA TAP
@@ -64,49 +80,51 @@ User Question → LLM Agent → TAP SQL Generation → NASA TAP API → JSON Res
 
 ---
 
-## Review
+## Review Finale
 
 ### Riepilogo delle Modifiche
 
-Implementazione completa dell'agente di analisi dati sugli esopianeti:
+Implementazione completa dell'agente di analisi dati sugli esopianeti con frontend React:
 
-1. **Struttura Base**: Directory organizzata secondo le specifiche CLAUDE.md, requirements.txt con pyvo, requests, fastapi, openai, anthropic, pytest.
+1. **Backend Python**:
+   - FastAPI server con CORS per frontend
+   - LLM integration (OpenAI/Anthropic)
+   - TAP query execution con validazione sicurezza
+   - Query cache (in-memory + file, TTL 15min)
+   - 15+ concept mappings astronomici
 
-2. **Mappings**: 15+ concetti astronomici mappati (Earth-sized, Super-Earth, Hot Jupiter, habitable zone, etc.) con aliases per variazioni comuni.
+2. **Frontend React**:
+   - Vite + React 18 + Tailwind CSS
+   - Tema scuro "space" con gradienti
+   - 6 tipi di visualizzazione (Recharts)
+   - Query input con esempi suggeriti
+   - SQL viewer con toggle
+   - Indicatore cache status
+   - Design responsive
 
-3. **Schema Cache**: JSON con metadati per tabelle ps, pscomppars, keplernames. Tool per lookup e validazione colonne.
+### Stack Tecnologico
+- **Backend**: Python 3.10+, FastAPI, Pydantic, requests
+- **Frontend**: React 18, Vite, Tailwind CSS, Recharts, Lucide Icons
+- **LLM**: OpenAI GPT-4o / Anthropic Claude
+- **Data**: NASA Exoplanet Archive TAP API
 
-4. **Tools TAP**:
-   - `tap_query.py`: Esecuzione query con validazione sicurezza (solo SELECT, no DROP/DELETE)
-   - `sql_validator.py`: Validazione schema, rilevamento SELECT *, controllo LIMIT
+### File Totali
+- Backend: ~20 file Python
+- Frontend: ~10 file JS/JSX/CSS
+- Config: 5 file (package.json, vite.config, tailwind.config, etc.)
+- Tests: 6 file
 
-5. **Visualization**: Spec builder con supporto per scatter, line_chart, bar_chart, histogram, table, kpi. Suggerimenti automatici basati su colonne.
+### Come Usare
+```bash
+# Backend
+pip install -r requirements.txt
+cp .env.example .env  # Configurare API key
+python -m src.agent.server
 
-6. **Agent**:
-   - Prompt system completo con schema reference e concept mappings
-   - State management per contesto conversazionale
-   - Server FastAPI con endpoint /ask, /clear, /health, /schema
+# Frontend
+cd frontend
+npm install
+npm run dev
+```
 
-7. **Tests**: Unit tests per mappings, SQL validator, viz spec. Integration tests per query TAP reali.
-
-### File Creati (20 file)
-- `requirements.txt`
-- `.env.example`
-- `src/config.py`
-- `src/__init__.py`
-- `src/mappings/__init__.py`
-- `src/mappings/concepts.py`
-- `src/tools/__init__.py`
-- `src/tools/schema.py`
-- `src/tools/tap_query.py`
-- `src/tools/sql_validator.py`
-- `src/viz/__init__.py`
-- `src/viz/spec_builder.py`
-- `src/agent/__init__.py`
-- `src/agent/prompts.py`
-- `src/agent/state.py`
-- `src/agent/agent.py`
-- `src/agent/server.py`
-- `schema_cache/columns.json`
-- `tests/` (6 file)
-- `README.md` (aggiornato)
+Aprire `http://localhost:3000` per usare l'interfaccia.

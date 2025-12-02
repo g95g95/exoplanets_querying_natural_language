@@ -40,6 +40,7 @@ class QuestionResponse(BaseModel):
     row_count: Optional[int] = None
     error: Optional[str] = None
     visualization: Optional[Dict[str, Any]] = None
+    cached: Optional[bool] = False
 
 
 def get_agent(session_id: str) -> ExoplanetAgent:
@@ -108,6 +109,21 @@ async def get_schema(table: str = "pscomppars"):
         return schema
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+@app.get("/cache/stats")
+async def cache_stats():
+    """Get cache statistics."""
+    from ..tools.cache import get_cache_stats
+    return get_cache_stats()
+
+
+@app.post("/cache/clear")
+async def cache_clear():
+    """Clear all cached queries."""
+    from ..tools.cache import clear_cache
+    clear_cache()
+    return {"status": "cache cleared"}
 
 
 def main():
