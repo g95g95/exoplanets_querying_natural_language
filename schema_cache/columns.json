@@ -1,0 +1,62 @@
+{
+  "ps": {
+    "description": "Planetary Systems - one row per planet-reference combination",
+    "columns": {
+      "pl_name": {"type": "string", "description": "Planet name", "units": null},
+      "hostname": {"type": "string", "description": "Host star name", "units": null},
+      "pl_rade": {"type": "float", "description": "Planet radius", "units": "Earth radii"},
+      "pl_bmasse": {"type": "float", "description": "Planet mass", "units": "Earth masses"},
+      "pl_orbper": {"type": "float", "description": "Orbital period", "units": "days"},
+      "pl_orbsmax": {"type": "float", "description": "Semi-major axis", "units": "AU"},
+      "pl_eqt": {"type": "float", "description": "Equilibrium temperature", "units": "K"},
+      "pl_tranflag": {"type": "int", "description": "Transit flag (0 or 1)", "units": null},
+      "pl_discmethod": {"type": "string", "description": "Discovery method", "units": null},
+      "disc_year": {"type": "int", "description": "Discovery year", "units": "year"},
+      "st_teff": {"type": "float", "description": "Stellar effective temperature", "units": "K"},
+      "st_rad": {"type": "float", "description": "Stellar radius", "units": "Solar radii"},
+      "st_mass": {"type": "float", "description": "Stellar mass", "units": "Solar masses"},
+      "st_dist": {"type": "float", "description": "Distance to star", "units": "parsec"},
+      "sy_snum": {"type": "int", "description": "Number of stars in system", "units": "count"},
+      "sy_pnum": {"type": "int", "description": "Number of planets in system", "units": "count"},
+      "pl_orbeccen": {"type": "float", "description": "Orbital eccentricity", "units": null},
+      "pl_insol": {"type": "float", "description": "Insolation flux", "units": "Earth flux"},
+      "pl_dens": {"type": "float", "description": "Planet density", "units": "g/cm^3"},
+      "ra": {"type": "float", "description": "Right ascension", "units": "degrees"},
+      "dec": {"type": "float", "description": "Declination", "units": "degrees"}
+    }
+  },
+  "pscomppars": {
+    "description": "Planetary Systems Composite Parameters - one row per planet with best values",
+    "columns": {
+      "pl_name": {"type": "string", "description": "Planet name", "units": null},
+      "hostname": {"type": "string", "description": "Host star name", "units": null},
+      "pl_rade": {"type": "float", "description": "Planet radius", "units": "Earth radii"},
+      "pl_bmasse": {"type": "float", "description": "Planet mass", "units": "Earth masses"},
+      "pl_orbper": {"type": "float", "description": "Orbital period", "units": "days"},
+      "pl_orbsmax": {"type": "float", "description": "Semi-major axis", "units": "AU"},
+      "pl_eqt": {"type": "float", "description": "Equilibrium temperature", "units": "K"},
+      "pl_tranflag": {"type": "int", "description": "Transit flag (0 or 1)", "units": null},
+      "pl_discmethod": {"type": "string", "description": "Discovery method", "units": null},
+      "disc_year": {"type": "int", "description": "Discovery year", "units": "year"},
+      "st_teff": {"type": "float", "description": "Stellar effective temperature", "units": "K"},
+      "st_rad": {"type": "float", "description": "Stellar radius", "units": "Solar radii"},
+      "st_mass": {"type": "float", "description": "Stellar mass", "units": "Solar masses"},
+      "st_dist": {"type": "float", "description": "Distance to star", "units": "parsec"},
+      "sy_snum": {"type": "int", "description": "Number of stars in system", "units": "count"},
+      "sy_pnum": {"type": "int", "description": "Number of planets in system", "units": "count"},
+      "pl_orbeccen": {"type": "float", "description": "Orbital eccentricity", "units": null},
+      "pl_insol": {"type": "float", "description": "Insolation flux", "units": "Earth flux"},
+      "pl_dens": {"type": "float", "description": "Planet density", "units": "g/cm^3"},
+      "ra": {"type": "float", "description": "Right ascension", "units": "degrees"},
+      "dec": {"type": "float", "description": "Declination", "units": "degrees"}
+    }
+  },
+  "keplernames": {
+    "description": "Kepler Objects of Interest with confirmed planet names",
+    "columns": {
+      "kepid": {"type": "int", "description": "Kepler ID", "units": null},
+      "pl_name": {"type": "string", "description": "Planet name", "units": null},
+      "koi_name": {"type": "string", "description": "KOI name", "units": null}
+    }
+  }
+}
