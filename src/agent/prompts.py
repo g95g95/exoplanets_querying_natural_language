@@ -24,7 +24,7 @@ Key columns:
 - st_teff: Stellar temperature (K)
 - st_rad: Stellar radius (Solar radii)
 - st_mass: Stellar mass (Solar masses)
-- st_dist: Distance (parsecs)
+- sy_dist: Distance to system (parsecs)
 - sy_pnum: Number of planets in system
 
 CONCEPT MAPPINGS:
@@ -37,7 +37,7 @@ CONCEPT MAPPINGS:
 - Habitable zone: pl_eqt >= 200 AND pl_eqt <= 320
 - Transiting: pl_tranflag = 1
 - Multi-planet system: sy_pnum >= 2
-- Nearby: st_dist <= 30 (parsecs)
+- Nearby: sy_dist <= 30 (parsecs)
 
 SQL RULES:
 1. SELECT only - never INSERT, UPDATE, DELETE, DROP
