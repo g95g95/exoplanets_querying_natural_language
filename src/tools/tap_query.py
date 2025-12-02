@@ -4,12 +4,14 @@ import requests
 from typing import Dict, List, Optional, Any
 
 from ..config import NASA_TAP_URL, DEFAULT_LIMIT, MAX_LIMIT
+from .cache import get_cached, set_cached
 
 
 def run_tap_query(
     query: str,
     timeout: int = 60,
-    format: str = "json"
+    format: str = "json",
+    use_cache: bool = True
 ) -> Dict[str, Any]:
     """Execute an ADQL query against the NASA Exoplanet Archive TAP endpoint.
 
@@ -17,12 +19,20 @@ def run_tap_query(
         query: ADQL query string (no semicolons)
         timeout: Request timeout in seconds
         format: Response format (json, csv, votable)
+        use_cache: Whether to use query cache
 
     Returns:
-        Dict with 'success', 'data', 'row_count', and optionally 'error' keys
+        Dict with 'success', 'data', 'row_count', 'cached', and optionally 'error' keys
     """
     # Clean query - remove semicolons if present
     query = query.strip().rstrip(";")
+
+    # Check cache first
+    if use_cache and format == "json":
+        cached = get_cached(query)
+        if cached:
+            cached["cached"] = True
+            return cached
 
     # Validate query is SELECT only
     query_upper = query.upper().strip()
@@ -57,16 +67,22 @@ def run_tap_query(
 
         if format == "json":
             data = response.json()
-            return {
+            result = {
                 "success": True,
                 "data": data,
-                "row_count": len(data)
+                "row_count": len(data),
+                "cached": False
             }
+            # Cache successful results
+            if use_cache:
+                set_cached(query, result)
+            return result
         else:
             return {
                 "success": True,
                 "data": response.text,
-                "row_count": None
+                "row_count": None,
+                "cached": False
             }
 
     except requests.exceptions.Timeout:
