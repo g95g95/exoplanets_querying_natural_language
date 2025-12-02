@@ -101,14 +101,14 @@ CONCEPT_MAPPINGS: Dict[str, Dict] = {
 
     # Distance
     "nearby": {
-        "columns": ["st_dist"],
-        "condition": "st_dist <= 30",
-        "description": "Stars within 30 parsecs"
+        "columns": ["sy_dist"],
+        "condition": "sy_dist <= 30",
+        "description": "Systems within 30 parsecs"
     },
     "close": {
-        "columns": ["st_dist"],
-        "condition": "st_dist <= 30",
-        "description": "Stars within 30 parsecs"
+        "columns": ["sy_dist"],
+        "condition": "sy_dist <= 30",
+        "description": "Systems within 30 parsecs"
     },
 }
 
